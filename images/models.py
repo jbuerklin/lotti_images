@@ -1,6 +1,7 @@
 from typing import Any
 from django.db import models
 import os
+import hashlib
 
 class LottiImage(models.Model):
     image = models.ImageField(upload_to='images/')
@@ -8,6 +9,7 @@ class LottiImage(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    hash = models.CharField(default="", unique=True)
 
     def __str__(self):
         return self.name
@@ -15,6 +17,8 @@ class LottiImage(models.Model):
     def save(self, *args, **kwargs):
         if not self.name:
             self.name = self.image.name
+        if self.image and not self.hash:
+            self.hash = hashlib.md5(self.image)
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
