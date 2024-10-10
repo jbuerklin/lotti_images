@@ -1,0 +1,13 @@
+<html>
+<head>
+    <title>Lotti</title>
+</head>
+<body>
+    <h3>Ein zufälliges Bild von Lotti <small><a href="/">nächstes</a></small></h3>
+    <p>
+        <a href="{{ image.image.url }}">
+            <img src="{{ image.image.url }}" alt="{{ image.name|default:"Lotti" }}" style="max-width: 100%; max-height: calc(100vh - 4rem);">
+        </a>
+    </p>
+</body>
+</html>

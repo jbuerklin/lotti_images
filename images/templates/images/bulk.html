@@ -1,0 +1,20 @@
+<html>
+<head>
+    <title>Lotti</title>
+</head>
+<body>
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="file" multiple="true" name="images" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+    {% if created %}
+    <p>Created:</p>
+    {% for image in created %}
+    <a href="{{ image.image.url }}">
+        <img src="{{ image.image.url }}" alt="{{ image.name }}" style="max-width: 10%">
+    </a>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>
