@@ -4,7 +4,10 @@ import os
 import hashlib
 
 class LottiImage(models.Model):
-    image = models.ImageField(upload_to='images/')
+    def upload_to(instance: 'LottiImage', filename: str) -> str:
+        return f'images/{instance.hash[:8]}.{filename.split(".")[-1]}'
+
+    image = models.ImageField(upload_to=upload_to)
     name = models.CharField(max_length=100, blank=True)
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -15,10 +18,11 @@ class LottiImage(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.name:
-            self.name = self.image.name
         if self.image and not self.hash:
             self.hash = hashlib.md5(self.image.read()).hexdigest()
+
+        if not self.name and self.hash:
+            self.name = self.hash[:8]
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):
