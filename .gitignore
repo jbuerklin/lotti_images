@@ -2,3 +2,5 @@ db.sqlite3
 media/
 __pycache__/
 .pyc
+venv/
+lotti_images/settings/__init__.py

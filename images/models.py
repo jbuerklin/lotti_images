@@ -9,7 +9,7 @@ class LottiImage(models.Model):
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    hash = models.CharField(default="", unique=True)
+    hash = models.CharField(max_length=64, default="", unique=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -18,7 +18,7 @@ class LottiImage(models.Model):
         if not self.name:
             self.name = self.image.name
         if self.image and not self.hash:
-            self.hash = hashlib.md5(self.image)
+            self.hash = hashlib.md5(self.image.read()).hexdigest()
         super().save(*args, **kwargs)
 
     def delete(self, *args, **kwargs):

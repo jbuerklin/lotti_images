@@ -14,7 +14,10 @@ def bulk(request):
     if request.method == 'POST':
         images = request.FILES.getlist('images')
         for image in images:
-            created.append(LottiImage.objects.create(image=image))
+            try:
+                created.append(LottiImage.objects.create(image=image))
+            except:
+                pass
 
     return render(request, 'images/bulk.html', {'created': created})
 
