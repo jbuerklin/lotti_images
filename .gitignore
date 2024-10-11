@@ -4,3 +4,4 @@ __pycache__/
 .pyc
 venv/
 lotti_images/settings/__init__.py
+.DS_Store
